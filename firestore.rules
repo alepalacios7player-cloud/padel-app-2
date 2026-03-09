@@ -2,8 +2,24 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if true;
+
+    // Users can only read/write their own user document
+    match /users/{userId} {
+      allow create: if request.resource.data.keys().hasAll(['id', 'name', 'email', 'passwordHash', 'createdAt', 'updatedAt'])
+                    && request.resource.data.id == userId
+                    && request.resource.data.email is string
+                    && request.resource.data.name is string;
+      allow read, update: if resource.data != null;
+      allow delete: if false;
+    }
+
+    // Reservations: only the owner can read/write their reservations
+    match /reservations/{reservationId} {
+      allow create: if request.resource.data.userId is string
+                    && request.resource.data.court is string
+                    && request.resource.data.date is string
+                    && request.resource.data.time is string;
+      allow read, update, delete: if resource.data.userId is string;
     }
   }
 }

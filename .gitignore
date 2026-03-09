@@ -3,9 +3,13 @@ node_modules/
 *.log
 .DS_Store
 .env
+.env.local
+
+# Build output
+build/
+dist/
 
 # Firebase
 .firebase/
 firestore.indexes.json
-firestore.rules
 functions/node_modules/
