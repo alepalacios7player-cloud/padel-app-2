@@ -1,0 +1,11 @@
+# Node.js
+node_modules/
+*.log
+.DS_Store
+.env
+
+# Firebase
+.firebase/
+firestore.indexes.json
+firestore.rules
+functions/node_modules/
